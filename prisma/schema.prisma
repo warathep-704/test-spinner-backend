@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-go"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id
+  userName        String                   @map("user_name")
+  userNameLower   String                   @map("user_name_lower")
+  totalPoint      Int      @default(0)     @map("total_point")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  spinHistories          SpinHistory[]
+  userCheckpointRewards UserCheckpointReward[]
+
+  @@map("users")
+}
+
+model WheelReward {
+  id       String  @id
+  point    Int
+  weight   Int
+  isActive Boolean @default(true) @map("is_active")
+
+  @@map("wheel_reward")
+}
+
+model Checkpoint {
+  id            String  @id
+  pointRequired Int     @map("point_required")
+  rewardName    String? @map("reward_name")
+  isActive      Boolean @default(true) @map("is_active")
+
+  userCheckpointRewards UserCheckpointReward[]
+
+  @@map("checkpoint")
+}
+
+model UserCheckpointReward {
+  id           String   @id
+  userId       String   @map("user_id")
+  checkpointId String   @map("checkpoint_id")
+  receivedAt   DateTime @default(now()) @map("received_at")
+
+  user       User       @relation(fields: [userId], references: [id])
+  checkpoint Checkpoint @relation(fields: [checkpointId], references: [id])
+
+  @@map("user_checkpoint_reward")
+}
+
+model SpinHistory {
+  id          String   @id
+  userId      String   @map("user_id")
+  rewardPoint Int      @map("reward_point")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("spin_history")
+}
