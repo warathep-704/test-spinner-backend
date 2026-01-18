@@ -1,0 +1,6 @@
+{
+  "/GameSpinner/page": "app/GameSpinner/page.js",
+  "/Home/page": "app/Home/page.js",
+  "/Landing/page": "app/Landing/page.js",
+  "/_not-found/page": "app/_not-found/page.js"
+}
