@@ -1,6 +1,6 @@
 package model
 
-import "nextzy-spinner-backend/prisma/db"
+import "github.com/warathep/nextzy-spinner-backend/prisma/db"
 
 type UserCheckpointResponse struct {
 	Checkpoints     []db.CheckpointModel           `json:"checkpoints"`
